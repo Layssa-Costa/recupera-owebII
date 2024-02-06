@@ -4,7 +4,6 @@ include_once 'php_action/db_connect.php';
 if(isset($_GET['id'])) {
     $id = mysqli_escape_string($connect, $_GET['id']);
 
-    // Consulta para obter os dados do cliente com base no ID
     $sql = "SELECT * FROM clientes WHERE id = '$id'";
     $resultado = mysqli_query($connect, $sql);
     $dados = mysqli_fetch_array($resultado);

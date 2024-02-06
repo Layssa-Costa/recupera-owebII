@@ -1,18 +1,5 @@
 <?php
 include_once 'php_action/db_connect.php';
-
-// Função para excluir cliente
-function excluirCliente($connect, $id) {
-    $sql = "DELETE FROM clientes WHERE id = '$id'";
-    mysqli_query($connect, $sql);
-}
-
-// Função para alterar cliente
-function alterarCliente($connect, $id, $nome, $email, $cidade) {
-    $sql = "UPDATE clientes SET nome = '$nome', email = '$email', cidade = '$cidade' WHERE id = '$id'";
-    mysqli_query($connect, $sql);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -31,35 +18,47 @@ function alterarCliente($connect, $id, $nome, $email, $cidade) {
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Cidade</th>
-                <th>Ações</th>
             </thead>
             <tbody>
 
             <?php
                 $sql = "SELECT * FROM clientes";
                 $resultado = mysqli_query($connect, $sql);
-                while ($dados = mysqli_fetch_array($resultado)):
+                    while ($dados = mysqli_fetch_array($resultado)):
             ?>
             <tr>
                 <td><?php echo $dados['nome'];?></td>
                 <td><?php echo $dados['email'];?></td>
                 <td><?php echo $dados['cidade'];?></td>
                 <td>
-                    <a href="editar_cliente.php?id=<?php echo $dados['id']; ?>">
-                        <button>Alterar</button>
-                    </a>
-                    <a href="excluir_cliente.php?id=<?php echo $dados['id']; ?>">
-                        <button>Excluir</button>
-                    </a>
+                    <form method="post" action="excluir_cliente.php">
+                        <input type="hidden" name="cliente_id" value="<?php echo $dados['id']; ?>">
+                            <button type="submit" name="excluir_cliente">
+                                <img src="img/delete.png" alt="delete">
+                            </button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="editar_cliente.php">
+                        <input type="hidden" name="cliente_id" value="<?php echo $dados['id']; ?>">
+                            <button type="submit" name="editar_cliente">
+                                <img src="img/edit.png" alt="editar">
+                            </button>
+                    </form>
                 </td>
             </tr>
-            <?php endwhile; ?>
+
+            <?php
+                endwhile;
+            ?>
 
             </tbody>
         </table>
         <a href="add_cliente.php">
             <input class="btn" type="button" value="Cadastrar Cliente">
         </a>
+
     </div>
+
 </body>
 </html>
